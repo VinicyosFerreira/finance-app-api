@@ -22,3 +22,7 @@ export const checkIfPasswordIsValid = (password) => {
 export const checkIfEmailIsValid = (email) => {
   return validator.isEmail(email);
 };
+
+export const checkIfIdIsValid = (id) => {
+  return validator.isUUID(id);
+};
