@@ -22,6 +22,7 @@ export class PostgresUpdateUserRepository {
         UPDATE users
         SET ${updateFields.join(', ')}
         WHERE ID = $${updateValues.length}
+        RETURNING *
     `;
 
     // Executar a query
