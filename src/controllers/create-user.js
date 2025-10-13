@@ -1,4 +1,3 @@
-import { CreateUserUseCase } from '../use-cases/index.js';
 import { EmailAlreadyInUseError } from '../errors/user.js';
 import {
   invalidPasswordResponse,
@@ -11,6 +10,9 @@ import {
 } from './helpers/index.js';
 
 export class CreateUserController {
+  constructor(createUserUseCase) {
+    this.createUserUseCase = createUserUseCase;
+  }
   async execute(httpRequest) {
     try {
       const params = httpRequest.body;
@@ -36,8 +38,7 @@ export class CreateUserController {
       }
 
       // chamar o useCase
-      const createdUserUseCase = new CreateUserUseCase();
-      const createdUser = await createdUserUseCase.execute(params);
+      const createdUser = await this.createUserUseCase.execute(params);
 
       // retornar o resultado para client(usuário)
       return created(createdUser);
