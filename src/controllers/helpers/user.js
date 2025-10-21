@@ -11,10 +11,6 @@ export const invalidEmailResponse = () => {
   return badRequest({ message: 'Invalid email' });
 };
 
-export const invalidIdResponse = () => {
-  return badRequest({ message: 'Invalid user id' });
-};
-
 export const userNotFoundResponse = () => {
   return notFound({ message: 'User not found' });
 };
@@ -25,8 +21,4 @@ export const checkIfPasswordIsValid = (password) => {
 
 export const checkIfEmailIsValid = (email) => {
   return validator.isEmail(email);
-};
-
-export const checkIfIdIsValid = (id) => {
-  return validator.isUUID(id);
 };
