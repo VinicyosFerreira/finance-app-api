@@ -9,6 +9,10 @@ export const invalidIdResponse = () => {
   return badRequest({ message: 'Invalid user id' });
 };
 
+export const requiredFieldsIsMissingResponse = (field) => {
+  return badRequest({ message: `Missing field: ${field}` });
+};
+
 export const checkIfIsString = (value) => typeof value === 'string';
 
 export const validateRequireFields = (params, requiredFields) => {
@@ -17,8 +21,6 @@ export const validateRequireFields = (params, requiredFields) => {
     const fieldIsEmpty =
       checkIfIsString(params[field]) &&
       validator.isEmpty(params[field], { ignore_whitespace: true });
-
-    console.log(fieldIsMissing, fieldIsEmpty);
 
     if (fieldIsMissing || fieldIsEmpty) {
       return {

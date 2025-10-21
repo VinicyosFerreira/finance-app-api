@@ -3,6 +3,7 @@ import {
   checkIfIdIsValid,
   invalidIdResponse,
   validateRequireFields,
+  requiredFieldsIsMissingResponse,
 } from '../helpers/index.js';
 import validator from 'validator';
 export class CreateTransactionController {
@@ -20,18 +21,13 @@ export class CreateTransactionController {
         validateRequireFields(params, requiredFields);
 
       if (!requiredFieldsWereProvided) {
-        return badRequest({ message: `Missing field: ${missingField}` });
+        return requiredFieldsIsMissingResponse(missingField);
       }
 
       // validar se usuário é valido
       const userIsValid = checkIfIdIsValid(params.user_id);
       if (!userIsValid) {
         return invalidIdResponse();
-      }
-
-      // validar se o amount é maior que 0
-      if (params.amount <= 0) {
-        return badRequest({ message: 'Amount must be greater than 0' });
       }
 
       // validar casos decimais de amount
