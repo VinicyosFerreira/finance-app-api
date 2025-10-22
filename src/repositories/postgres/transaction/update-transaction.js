@@ -1,4 +1,4 @@
-import { PostgresHelper } from '../../../db/postgres/helper';
+import { PostgresHelper } from '../../../db/postgres/helper.js';
 
 export class PostgresUpdateTransactionRepository {
   async execute(transactionId, updateTransactionParams) {
@@ -19,7 +19,7 @@ export class PostgresUpdateTransactionRepository {
 
     // Realizar a query de atualização de forma dinâmica
     const updateQuery = `
-                UPDATE transaction
+                UPDATE transactions
                 SET ${updateFields.join(', ')}
                 WHERE ID = $${updateValues.length}
                 RETURNING *
