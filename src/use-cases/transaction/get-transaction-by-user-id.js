@@ -1,4 +1,4 @@
-import { UserNotFoundError } from '../../errors/user';
+import { UserNotFoundError } from '../../errors/user.js';
 
 export class GetTransactionUserByIdUseCase {
   constructor(getTransactionByUserIdRepository, getUserByIdRepository) {
@@ -6,7 +6,7 @@ export class GetTransactionUserByIdUseCase {
     this.getUserByIdRepository = getUserByIdRepository;
   }
   async execute(params) {
-    const userId = params.user_id;
+    const userId = params.userId;
     const user = await this.getUserByIdRepository.execute(userId);
 
     if (!user) {
