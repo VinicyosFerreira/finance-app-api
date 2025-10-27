@@ -5,6 +5,7 @@ import process from 'process';
 import {
   makeCreateUserController,
   makeDeleteUserController,
+  makeGetUserBalanceController,
   makeGetUserByIdController,
   makeUpdateUserController,
 } from './src/factories/controllers/user.js';
@@ -29,6 +30,12 @@ app.post('/api/users', async (req, res) => {
 app.get('/api/users/:userId', async (req, res) => {
   const getUserByIdController = makeGetUserByIdController();
   const { statusCode, body } = await getUserByIdController.execute(req);
+  res.status(statusCode).json(body);
+});
+
+app.get('/api/users/:userId/balance', async (req, res) => {
+  const GetUserBalanceController = makeGetUserBalanceController();
+  const { statusCode, body } = await GetUserBalanceController.execute(req);
   res.status(statusCode).json(body);
 });
 
