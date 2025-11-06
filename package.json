@@ -14,7 +14,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
     "@eslint/js": "^9.36.0",
+    "babel-jest": "^30.2.0",
     "eslint": "^9.36.0",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^16.4.0",
