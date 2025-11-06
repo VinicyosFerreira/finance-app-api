@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky",
-    "migrations": "node src/db/postgres/migrations/exec.js",
+    "prepare": "npx husky install && npx prisma generate",
     "start:dev": "node --watch index.js"
   },
   "keywords": [],
