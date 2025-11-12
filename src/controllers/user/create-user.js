@@ -21,8 +21,6 @@ export class CreateUserController {
       // retornar o resultado para client(usuário)
       return created(createdUser);
     } catch (error) {
-      console.log(error);
-
       if (error instanceof ZodError) {
         return badRequest({ message: error.issues[0].message });
       }
