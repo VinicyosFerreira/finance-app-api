@@ -8,6 +8,7 @@ const config = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   watchPathIgnorePatterns: ['<rootDir>/.postgres-data'],
+  transformIgnorePatterns: ['/node_modules/(?!@faker-js/faker)/'],
 };
 
 export default config;
