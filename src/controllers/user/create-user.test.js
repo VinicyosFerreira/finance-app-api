@@ -1,5 +1,6 @@
 import { CreateUserController } from './create-user.js';
 import { faker } from '@faker-js/faker';
+import { EmailAlreadyInUseError } from '../../errors/user.js';
 
 describe('Create User Controller', () => {
   // stub
@@ -197,5 +198,61 @@ describe('Create User Controller', () => {
     // assert
     expect(executeSpy).toHaveBeenCalledWith(httpRequest.body);
     expect(executeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return 500 if CreateUserUseCase throws', async () => {
+    // arrange
+    const createUserUseCaseStub = new CreateUserUseCaseStub();
+    const createUserController = new CreateUserController(
+      createUserUseCaseStub
+    );
+    const httpRequest = {
+      body: {
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
+      },
+    };
+
+    jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    // act
+    const result = await createUserController.execute(httpRequest);
+
+    // assert
+    expect(result.statusCode).toBe(500);
+  });
+
+  it('should return 400 if CreateUserUseCaser throw EmailAlreadyInUseError', async () => {
+    // arrange
+    const createUserUseCaseStub = new CreateUserUseCaseStub();
+    const createUserController = new CreateUserController(
+      createUserUseCaseStub
+    );
+    const httpRequest = {
+      body: {
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
+      },
+    };
+
+    jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new EmailAlreadyInUseError(httpRequest.body.email);
+    });
+
+    // act
+    const result = await createUserController.execute(httpRequest);
+
+    // assert
+    expect(result.statusCode).toBe(400);
   });
 });
