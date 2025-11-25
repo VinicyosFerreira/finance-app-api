@@ -62,7 +62,7 @@ export class UpdateTransactionController {
       return ok(updateTransaction);
     } catch (error) {
       console.log(error);
-      serverError();
+      return serverError();
     }
   }
 }
