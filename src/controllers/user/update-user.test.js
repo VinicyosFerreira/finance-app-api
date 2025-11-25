@@ -109,7 +109,7 @@ describe('Update User Controller', () => {
       params: httpRequest.params,
       body: {
         ...httpRequest.body,
-        unallowed_field: 'unallowed_value'
+        unallowed_field: 'unallowed_value',
       },
     });
 
