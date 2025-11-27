@@ -37,3 +37,8 @@ export const createTransactionSchema = z.object({
     error: 'Type must be EARNING, EXPENSE or INVESTMENT',
   }),
 });
+
+export const updateTransactionSchema = createTransactionSchema
+  .omit({ user_id: true })
+  .partial()
+  .strict();
