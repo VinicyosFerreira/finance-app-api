@@ -5,8 +5,7 @@ export class GetTransactionUserByIdUseCase {
     this.getTransactionByUserIdRepository = getTransactionByUserIdRepository;
     this.getUserByIdRepository = getUserByIdRepository;
   }
-  async execute(params) {
-    const userId = params.userId;
+  async execute(userId) {
     const user = await this.getUserByIdRepository.execute(userId);
 
     if (!user) {
