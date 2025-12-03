@@ -1,15 +1,16 @@
-import { v4 as uuid } from 'uuid';
 import { EmailAlreadyInUseError } from '../../errors/user.js';
 
 export class CreateUserUseCase {
   constructor(
     getUserByEmailRepository,
     createUserRepository,
-    passwordHasherAdapter
+    passwordHasherAdapter,
+    idGeneratorAdapter
   ) {
     this.createUserRepository = createUserRepository;
     this.getUserByEmailRepository = getUserByEmailRepository;
     this.passwordHasherAdapter = passwordHasherAdapter;
+    this.idGeneratorAdapter = idGeneratorAdapter;
   }
   async execute(createUserParams) {
     const userWithProvidedEmail = await this.getUserByEmailRepository.execute(
@@ -21,7 +22,7 @@ export class CreateUserUseCase {
     }
 
     // gerar ID do usuário
-    const userId = uuid();
+    const userId = this.idGeneratorAdapter.execute();
 
     // criptografar a senha
     const hashedPassoword = await this.passwordHasherAdapter.execute(
