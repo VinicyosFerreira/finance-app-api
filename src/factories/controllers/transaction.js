@@ -17,13 +17,16 @@ import {
   GetTransactionUserByIdUseCase,
   UpdateTransactionUseCase,
 } from '../../use-cases/index.js';
+import { IdGeneratorAdapter } from '../../adapters/index.js';
 
 export const makeCreateTransactionController = () => {
   const createTransactionRepository = new PostgresCreateTransactionRepository();
   const getUserByIdRepository = new PostgresGetUserByIdRepository();
+  const idGeneratorAdapter = new IdGeneratorAdapter();
   const createTransactionUseCase = new CreateTransactionUseCase(
     createTransactionRepository,
-    getUserByIdRepository
+    getUserByIdRepository,
+    idGeneratorAdapter
   );
   const createTransactionController = new CreateTransactionController(
     createTransactionUseCase
