@@ -79,7 +79,6 @@ describe('Create User Use Case', () => {
 
     // act
     const promise = sut.execute(user);
-    console.log(promise);
 
     // assert
     await expect(promise).rejects.toThrow(
