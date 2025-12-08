@@ -79,8 +79,6 @@ describe('Get User Balance Controller', () => {
     });
 
     // assert
-    expect(executeSpy).toHaveBeenCalledWith({
-      userId: userId,
-    });
+    expect(executeSpy).toHaveBeenCalledWith(userId);
   });
 });
