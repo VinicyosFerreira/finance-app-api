@@ -1,8 +1,9 @@
-import { faker } from '@faker-js/faker';
 import { CreateTransactionController } from './create-transaction.js';
+import { transaction } from '../../tests/index.js';
+
 describe('Create Transaction Controller', () => {
   class CreateTransactionUseCaseStub {
-    async execute(transaction) {
+    async execute() {
       return transaction;
     }
   }
@@ -12,20 +13,11 @@ describe('Create Transaction Controller', () => {
     const sut = new CreateTransactionController(createTransactionUseCaseStub);
     return { sut, createTransactionUseCaseStub };
   };
-  //  id: createTransactionParams.id,
-  //     user_id: createTransactionParams.user_id,
-  //     name: createTransactionParams.name,
-  //     date: createTransactionParams.date,
-  //     amount: createTransactionParams.amount,
-  //     type: createTransactionParams.type,
 
   const httpRequest = {
     body: {
-      user_id: faker.string.uuid(),
-      name: faker.commerce.productName(),
-      date: faker.date.anytime().toISOString(),
-      amount: Number(faker.finance.amount()),
-      type: 'EXPENSE',
+      id: undefined,
+      ...transaction,
     },
   };
 
