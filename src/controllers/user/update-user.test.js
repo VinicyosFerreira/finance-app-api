@@ -1,17 +1,11 @@
-// validar se resposta é 200
-// validar se o id é valido
-// validar se email é valido
-// senha inválida
-// erro de servidor
-// validar se e-mail passado já existe no banco
-
 import { faker } from '@faker-js/faker';
 import { UpdateUserController } from './update-user.js';
 import { EmailAlreadyInUseError } from '../../errors/user';
+import { user } from '../../tests/index.js';
 
 describe('Update User Controller', () => {
   class UpdateUserUseCaseStub {
-    async execute(user) {
+    async execute() {
       return user;
     }
   }

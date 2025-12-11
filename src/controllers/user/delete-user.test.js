@@ -1,24 +1,12 @@
-// levantar testes
-// cenario 200 em caso de deleção
-// se o id é valido
-// se o usuário ja for deletado e não for encontrado
-// retornar server error , se erro de servidor interno
 import { DeleteUserController } from './delete-user.js';
 import { faker } from '@faker-js/faker';
+import { user } from '../../tests/index.js';
 
 describe('Delete User Controller', () => {
   // stub
   class DeleteUserUseCaseStub {
     execute() {
-      return {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 7,
-        }),
-      };
+      return user;
     }
   }
 

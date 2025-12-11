@@ -1,24 +1,12 @@
-// retornar 200 se valido
-// retornar 400 se o id nao for valido
-// se usuario nao existir retonar 404
-// erro de servidor interno 500
-
 import { faker } from '@faker-js/faker';
 import { GetUserByIdController } from './get-user-by-id';
+import { user } from '../../tests';
 
 describe('Get User By Id Controller', () => {
   // stub
   class GetUserByIdUseCase {
     async execute() {
-      return {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 7,
-        }),
-      };
+      return user;
     }
   }
 
