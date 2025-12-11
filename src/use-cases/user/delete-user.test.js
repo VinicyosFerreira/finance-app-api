@@ -55,8 +55,10 @@ describe('Delete User Use Case', () => {
 
   it('should throw if DeleteUserRepository throws', async () => {
     // arrange
-    const {sut , deleteUserRepositoryStub } = makeSut();
-    jest.spyOn(deleteUserRepositoryStub, 'execute').mockRejectedValueOnce(new Error());
+    const { sut, deleteUserRepositoryStub } = makeSut();
+    jest
+      .spyOn(deleteUserRepositoryStub, 'execute')
+      .mockRejectedValueOnce(new Error());
 
     // act
     const promise = sut.execute(faker.string.uuid());
