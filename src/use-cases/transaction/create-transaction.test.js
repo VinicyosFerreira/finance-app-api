@@ -1,23 +1,21 @@
-import { faker } from '@faker-js/faker';
 import { CreateTransactionUseCase } from './create-transaction';
 import { UserNotFoundError } from '../../errors/user';
+import { transaction, user } from '../../tests/index.js';
 
 describe('Create Transaction Use Case', () => {
   // stub
   class CreateTransactionRepository {
-    async execute(transaction) {
-      return transaction;
+    async execute() {
+      return {
+        id: undefined,
+        ...transaction,
+      };
     }
   }
 
   class GetUserByIdRepository {
     async execute() {
-      return {
-        id: faker.string.uuid(),
-        name: faker.person.firstName(),
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-      };
+      return user;
     }
   }
 
@@ -46,14 +44,6 @@ describe('Create Transaction Use Case', () => {
     };
   };
 
-  const transaction = {
-    user_id: faker.string.uuid(),
-    name: faker.commerce.productName(),
-    date: faker.date.anytime().toISOString(),
-    amount: Number(faker.finance.amount()),
-    type: 'EXPENSE',
-  };
-
   it('should create a transaction successfully', async () => {
     // arrange
     const { sut } = makeSut();
@@ -62,10 +52,7 @@ describe('Create Transaction Use Case', () => {
     const createdTransaction = await sut.execute(transaction);
 
     // assert
-    expect(createdTransaction).toEqual({
-      ...transaction,
-      id: 'id-generated',
-    });
+    expect(createdTransaction).toEqual(transaction);
   });
 
   it('should call GetUserByIdRepository with correct user id', async () => {

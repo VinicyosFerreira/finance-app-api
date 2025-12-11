@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { GetTransactionUserByIdUseCase } from './get-transaction-by-user-id';
 import { UserNotFoundError } from '../../errors/user';
+import { user } from '../../tests';
 
 describe('Get Transaction By User ID Use Case', () => {
   // stub
@@ -11,16 +12,8 @@ describe('Get Transaction By User ID Use Case', () => {
   }
 
   class GetUserByIdRepository {
-    async execute(userId) {
-      return {
-        id: userId,
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 7,
-        }),
-      };
+    async execute() {
+      return user;
     }
   }
 
