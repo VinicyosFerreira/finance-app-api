@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch",
-    "prepare": "npx husky install && npx prisma generate",
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent",
+    "test:watch": "npm run test -- --watch",
+    "prepare": "husky install && prisma generate",
     "start:dev": "node --watch index.js"
   },
   "keywords": [],
@@ -34,6 +34,7 @@
     "@types/jest": "^30.0.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
+    "dotenv-cli": "^11.0.0",
     "express": "^5.1.0",
     "pg": "^8.16.3",
     "uuid": "^13.0.0",
