@@ -9,6 +9,7 @@ const config = {
   coverageProvider: 'v8',
   watchPathIgnorePatterns: ['<rootDir>/.postgres-data'],
   transformIgnorePatterns: ['/node_modules/(?!@faker-js/faker)/'],
+  globalSetup: '<rootDir>/jest.global-setup.js',
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.js'],
 };
 
