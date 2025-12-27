@@ -1,12 +1,12 @@
 import { PostgresCreateTransactionRepository } from './create-transaction.js';
-import { user as fakeUser, transaction } from '../../../tests/index.js';
+import { user, transaction } from '../../../tests/index.js';
 import { prisma } from '../../../../prisma/prisma.js';
 import dayjs from 'dayjs';
 
 describe('Create Transaction Repository', () => {
   it('should create a transaction on db', async () => {
-    const user = await prisma.user.create({
-      data: fakeUser,
+    await prisma.user.create({
+      data: user,
     });
     const sut = new PostgresCreateTransactionRepository();
 
@@ -22,5 +22,12 @@ describe('Create Transaction Repository', () => {
     );
     expect(dayjs(result.date).month()).toBe(dayjs(transaction.date).month());
     expect(dayjs(result.date).year()).toBe(dayjs(transaction.date).year());
+  });
+
+  it('should throw if prisma throws', async () => {
+    const sut = new PostgresCreateTransactionRepository();
+    jest.spyOn(prisma.transaction, 'create').mockRejectedValueOnce(new Error());
+    const promise = sut.execute({ ...transaction, user_id: user.id });
+    await expect(promise).rejects.toThrow();
   });
 });
