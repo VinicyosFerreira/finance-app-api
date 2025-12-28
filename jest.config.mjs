@@ -7,6 +7,10 @@
 const config = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.js',
+    '!<rootDir>/src/generated/**',
+  ],
   watchPathIgnorePatterns: ['<rootDir>/.postgres-data'],
   transformIgnorePatterns: ['/node_modules/(?!@faker-js/faker)/'],
   globalSetup: '<rootDir>/jest.global-setup.js',
