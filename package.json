@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --runInBand --silent",
     "test:watch": "npm run test -- --watch",
     "prepare": "husky install && prisma generate",
     "start:dev": "node --watch index.js"
