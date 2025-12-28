@@ -13,7 +13,7 @@ export class PostgresDeleteTransactionRepository {
       console.log(error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          return new TransactionNotFoundError(transactionId);
+          throw new TransactionNotFoundError(transactionId);
         }
       }
 
