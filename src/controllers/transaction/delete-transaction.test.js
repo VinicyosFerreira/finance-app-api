@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { DeleteTransactionController } from './delete-transaction.js';
 import { transaction } from '../../tests/index.js';
+import { TransactionNotFoundError } from '../../errors/transaction.js';
 
 describe('Delete Transaction Controller', () => {
   class DeleteTransactionUseCaseStub {
@@ -49,7 +50,9 @@ describe('Delete Transaction Controller', () => {
   it('should return 404 if transaction not found', async () => {
     // arrange
     const { sut, deleteTransactionUseCase } = makeSut();
-    jest.spyOn(deleteTransactionUseCase, 'execute').mockReturnValueOnce(null);
+    jest
+      .spyOn(deleteTransactionUseCase, 'execute')
+      .mockRejectedValueOnce(new TransactionNotFoundError());
 
     // act
     const result = await sut.execute({
