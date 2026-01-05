@@ -13,5 +13,6 @@ export default defineConfig([
         ...globals.jest,
       },
     },
+    ignores: ['src/generated/**/*'],
   },
 ]);
