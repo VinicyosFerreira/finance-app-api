@@ -218,6 +218,39 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": ["Transaction"],
+        "summary": "Get all transactions by user id",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of the user to get transactions"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions found",
+            "schema": {
+              "$ref": "#/definitions/TransactionParams"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
       }
     }
   },
