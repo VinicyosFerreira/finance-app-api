@@ -235,7 +235,10 @@
           "200": {
             "description": "Transactions found",
             "schema": {
-              "$ref": "#/definitions/TransactionParams"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TransactionParams"
+              }
             }
           },
           "404": {
@@ -272,6 +275,52 @@
             "schema": {
               "$ref": "#/definitions/TransactionParams"
             }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "schema": {
+              "$ref": "#/definitions/TransactionNotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Transaction"],
+        "summary": "Update Transaction By ID",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id of the transaction to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTransactionParams"
+            },
+            "type": "object",
+            "description": "Transaction to update"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction updated successfully",
+            "schema": {
+              "$ref": "#/definitions/TransactionParams"
+            }
+          },
+          "400": {
+            "description": "Invalid params"
           },
           "404": {
             "description": "Transaction not found",
@@ -357,6 +406,15 @@
         }
       }
     },
+    "UserNotFoundResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "User not found"
+        }
+      }
+    },
     "TransactionParams": {
       "type": "object",
       "properties": {
@@ -374,7 +432,7 @@
         },
         "date": {
           "type": "string",
-          "example": "2022-01-01"
+          "example": "2022-01-12T06:15:00.000Z"
         },
         "amount": {
           "type": "string",
@@ -411,21 +469,24 @@
         }
       }
     },
-    "InternalServerErrorResponse": {
+    "UpdateTransactionParams": {
       "type": "object",
       "properties": {
-        "message": {
+        "name": {
           "type": "string",
-          "example": "Internal server error"
-        }
-      }
-    },
-    "UserNotFoundResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
+          "example": "Salary"
+        },
+        "date": {
           "type": "string",
-          "example": "User not found"
+          "example": "2022-01-12T06:15:00.000Z"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1000
+        },
+        "type": {
+          "type": "string",
+          "example": "EARNING"
         }
       }
     },
@@ -435,6 +496,15 @@
         "message": {
           "type": "string",
           "example": "Transaction not found"
+        }
+      }
+    },
+    "InternalServerErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Internal server error"
         }
       }
     }
