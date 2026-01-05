@@ -179,8 +179,47 @@
           }
         }
       }
+    },
+    "/api/transactions": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary": "Create a new transaction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTransactionParams"
+            },
+            "description": "Transaction to create"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Transaction created successfully",
+            "schema": {
+              "$ref": "#/definitions/TransactionParams"
+            }
+          },
+          "400": {
+            "description": "Invalid params"
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
     }
-
   },
   "definitions": {
     "UserParams": {
@@ -247,6 +286,60 @@
         "balance": {
           "type": "string",
           "example": "1000"
+        }
+      }
+    },
+    "TransactionParams": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "465ac0de-74b8-424f-9f7c-4bef384342e7"
+        },
+        "user_id": {
+          "type": "string",
+          "example": "86e95b6b-4e3f-4a50-9965-5ea684fa9f7c"
+        },
+        "name": {
+          "type": "string",
+          "example": "Salary"
+        },
+        "date": {
+          "type": "string",
+          "example": "2022-01-01"
+        },
+        "amount": {
+          "type": "string",
+          "example": "1000"
+        },
+        "type": {
+          "type": "string",
+          "example": "EARNING"
+        }
+      }
+    },
+    "CreateTransactionParams": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "example": "86e95b6b-4e3f-4a50-9965-5ea684fa9f7c"
+        },
+        "name": {
+          "type": "string",
+          "example": "Salary"
+        },
+        "date": {
+          "type": "string",
+          "example": "2022-01-12T06:15:00.000Z"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1000
+        },
+        "type": {
+          "type": "string",
+          "example": "EARNING"
         }
       }
     },
