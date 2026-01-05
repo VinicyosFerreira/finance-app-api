@@ -252,6 +252,41 @@
           }
         }
       }
+    },
+    "/api/transactions/{transactionId}": {
+      "delete": {
+        "tags": ["Transaction"],
+        "summary": "Delete Transaction By ID",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id of the transaction to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/TransactionParams"
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "schema": {
+              "$ref": "#/definitions/TransactionNotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -391,6 +426,15 @@
         "message": {
           "type": "string",
           "example": "User not found"
+        }
+      }
+    },
+    "TransactionNotFoundResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Transaction not found"
         }
       }
     }
