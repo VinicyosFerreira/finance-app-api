@@ -1,34 +1,37 @@
 name: Deploy
 
-on: 
-  push: 
-    branches: 
+on:
+  push:
+    branches:
       - master
 
-jobs: 
-  check: 
+jobs:
+  check:
     runs-on: ubuntu-latest
 
-    steps: 
-     - name: "Checkout code"
-       uses: actions/checkout@v2
+    steps:
+      - name: 'Checkout code'
+        uses: actions/checkout@v2
 
-     - name: "Use Node.js"
-       uses: actions/setup-node@v2
-       with: 
-         node-version: "20"
+      - name: 'Use Node.js'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
 
-     - name: "Create .env.test file"
-       run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5433/finance-app" >> .env.test
+      - name: 'Create .env.test file'
+        run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5433/finance-app" >> .env.test
 
-     - name: "Install dependencies"
-       run:  "npm install"
+      - name: 'Temporary .env for Prisma'
+        run: cp .env.test .env
 
-     - name: "Eslint"
-       run : "npm run eslint:check"
+      - name: 'Install dependencies'
+        run: npm install
 
-     - name: "Prettier"
-       run: "npm run prettier:check"
+      - name: 'Eslint'
+        run: npm run eslint:check
 
-     - name: "Tests"
-       run: "npm run test"
+      - name: 'Prettier'
+        run: npm run prettier:check
+
+      - name: 'Tests'
+        run: npm run test
