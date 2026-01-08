@@ -50,13 +50,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v2.0
         with:
           envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Run migrations
         run: npx prisma migrate deploy
