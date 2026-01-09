@@ -8,7 +8,7 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "prepare": "husky install && prisma generate",
-    "start:dev": "node --watch index.js", 
+    "start:dev": "node --watch index.js",
     "eslint:check": "eslint src/ --ext .js",
     "prettier:check": "prettier --check src"
   },
@@ -17,11 +17,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@babel/core": "^7.28.5",
-    "@babel/preset-env": "^7.28.5",
     "@eslint/js": "^9.36.0",
     "@faker-js/faker": "^10.1.0",
-    "babel-jest": "^30.2.0",
     "eslint": "^9.36.0",
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^16.4.0",
