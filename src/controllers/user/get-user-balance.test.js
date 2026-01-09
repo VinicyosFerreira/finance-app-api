@@ -49,7 +49,7 @@ describe('Get User Balance Controller', () => {
     // arrange
     const { sut, getUserBalanceUseCaseStub } = makeSut();
 
-    jest
+    import.meta.jest
       .spyOn(getUserBalanceUseCaseStub, 'execute')
       .mockRejectedValueOnce(new Error());
 
@@ -67,7 +67,10 @@ describe('Get User Balance Controller', () => {
   it('should call GetUserBalanceUseCase with correct params', async () => {
     // arrange
     const { sut, getUserBalanceUseCaseStub } = makeSut();
-    const executeSpy = jest.spyOn(getUserBalanceUseCaseStub, 'execute');
+    const executeSpy = import.meta.jest.spyOn(
+      getUserBalanceUseCaseStub,
+      'execute'
+    );
 
     const userId = faker.string.uuid();
 

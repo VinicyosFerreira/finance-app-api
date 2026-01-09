@@ -114,7 +114,9 @@ describe('Update User Controller', () => {
   it('should return 500 if throws generic error on the server', async () => {
     // act
     const { sut, updateUserUseCaseStub } = makeSut();
-    jest.spyOn(updateUserUseCaseStub, 'execute').mockRejectedValue(new Error());
+    import.meta.jest
+      .spyOn(updateUserUseCaseStub, 'execute')
+      .mockRejectedValue(new Error());
 
     // arrange
     const result = await sut.execute(httpRequest);
@@ -126,7 +128,7 @@ describe('Update User Controller', () => {
   it('should return 400 if throw EmailAlreadyInUseError', async () => {
     // act
     const { sut, updateUserUseCaseStub } = makeSut();
-    jest
+    import.meta.jest
       .spyOn(updateUserUseCaseStub, 'execute')
       .mockRejectedValueOnce(
         new EmailAlreadyInUseError(faker.internet.email())
@@ -142,7 +144,7 @@ describe('Update User Controller', () => {
   it('should return 404 if throw UserNotFoundError', async () => {
     // act
     const { sut, updateUserUseCaseStub } = makeSut();
-    jest
+    import.meta.jest
       .spyOn(updateUserUseCaseStub, 'execute')
       .mockRejectedValueOnce(new UserNotFoundError(faker.string.uuid()));
 
@@ -156,7 +158,7 @@ describe('Update User Controller', () => {
   it('should call UpdateUserUseCase with correct params', async () => {
     // arrange
     const { sut, updateUserUseCaseStub } = makeSut();
-    const executeSpy = jest.spyOn(updateUserUseCaseStub, 'execute');
+    const executeSpy = import.meta.jest.spyOn(updateUserUseCaseStub, 'execute');
 
     // act
     await sut.execute(httpRequest);

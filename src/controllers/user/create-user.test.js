@@ -141,7 +141,7 @@ describe('Create User Controller', () => {
     // arrange
     const { sut, createUserUseCaseStub } = makeSut();
 
-    const executeSpy = jest.spyOn(createUserUseCaseStub, 'execute');
+    const executeSpy = import.meta.jest.spyOn(createUserUseCaseStub, 'execute');
 
     // act
     await sut.execute(httpRequest);
@@ -155,9 +155,11 @@ describe('Create User Controller', () => {
     // arrange
     const { sut, createUserUseCaseStub } = makeSut();
 
-    jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce(() => {
-      throw new Error();
-    });
+    import.meta.jest
+      .spyOn(createUserUseCaseStub, 'execute')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
 
     // act
     const result = await sut.execute(httpRequest);
@@ -170,9 +172,11 @@ describe('Create User Controller', () => {
     // arrange
     const { sut, createUserUseCaseStub } = makeSut();
 
-    jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce(() => {
-      throw new EmailAlreadyInUseError(httpRequest.body.email);
-    });
+    import.meta.jest
+      .spyOn(createUserUseCaseStub, 'execute')
+      .mockImplementationOnce(() => {
+        throw new EmailAlreadyInUseError(httpRequest.body.email);
+      });
 
     // act
     const result = await sut.execute(httpRequest);

@@ -38,7 +38,10 @@ describe('Update Transaction Use Case', () => {
   it('should call UpdateTransactionRepository with correct values', async () => {
     // arrange
     const { sut, updateTransactionRepositoryStub } = makeSut();
-    const updateSpy = jest.spyOn(updateTransactionRepositoryStub, 'execute');
+    const updateSpy = import.meta.jest.spyOn(
+      updateTransactionRepositoryStub,
+      'execute'
+    );
     const transactionId = faker.string.uuid();
 
     // act
@@ -57,7 +60,7 @@ describe('Update Transaction Use Case', () => {
   it('should throw if UpdateTransactionRepository throws', async () => {
     // arrange
     const { sut, updateTransactionRepositoryStub } = makeSut();
-    jest
+    import.meta.jest
       .spyOn(updateTransactionRepositoryStub, 'execute')
       .mockRejectedValueOnce(new Error());
 

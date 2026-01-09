@@ -48,7 +48,9 @@ describe('Get Transaction By User ID Use Case', () => {
     // arrange
     const { sut, getUserByIdRepository } = makeSut();
     const userId = faker.string.uuid();
-    jest.spyOn(getUserByIdRepository, 'execute').mockReturnValueOnce(null);
+    import.meta.jest
+      .spyOn(getUserByIdRepository, 'execute')
+      .mockReturnValueOnce(null);
 
     // act
     const promise = sut.execute(userId);
@@ -61,7 +63,10 @@ describe('Get Transaction By User ID Use Case', () => {
     // arrange
     const { sut, getUserByIdRepository } = makeSut();
     const userId = faker.string.uuid();
-    const getUserByIdSpy = jest.spyOn(getUserByIdRepository, 'execute');
+    const getUserByIdSpy = import.meta.jest.spyOn(
+      getUserByIdRepository,
+      'execute'
+    );
 
     // act
     await sut.execute(userId);
@@ -74,7 +79,7 @@ describe('Get Transaction By User ID Use Case', () => {
     // arrange
     const { sut, getTransactionByUserIdRepository } = makeSut();
     const userId = faker.string.uuid();
-    const getTransactionByUserIdSpy = jest.spyOn(
+    const getTransactionByUserIdSpy = import.meta.jest.spyOn(
       getTransactionByUserIdRepository,
       'execute'
     );
@@ -88,7 +93,7 @@ describe('Get Transaction By User ID Use Case', () => {
     // arrange
     const { sut, getUserByIdRepository } = makeSut();
     const userId = faker.string.uuid();
-    jest
+    import.meta.jest
       .spyOn(getUserByIdRepository, 'execute')
       .mockRejectedValueOnce(new Error());
 
@@ -103,7 +108,7 @@ describe('Get Transaction By User ID Use Case', () => {
     // arrange
     const { sut, getTransactionByUserIdRepository } = makeSut();
     const userId = faker.string.uuid();
-    jest
+    import.meta.jest
       .spyOn(getTransactionByUserIdRepository, 'execute')
       .mockRejectedValueOnce(new Error());
 

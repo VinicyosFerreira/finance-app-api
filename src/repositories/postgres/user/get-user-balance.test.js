@@ -67,7 +67,7 @@ describe('Get User Balance Repository', () => {
 
   it('should call Prisma with correct values', async () => {
     await prisma.user.create({ data: fakeUser });
-    const prismaSpy = jest.spyOn(prisma.transaction, 'aggregate');
+    const prismaSpy = import.meta.jest.spyOn(prisma.transaction, 'aggregate');
 
     const sut = new PostgresGetUserBalanceRepository();
 
@@ -105,7 +105,7 @@ describe('Get User Balance Repository', () => {
 
   it('should throw if Prisma throws', async () => {
     const sut = new PostgresGetUserBalanceRepository();
-    jest
+    import.meta.jest
       .spyOn(prisma.transaction, 'aggregate')
       .mockRejectedValueOnce(new Error());
 
