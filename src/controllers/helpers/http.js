@@ -4,6 +4,14 @@ export const badRequest = (body) => {
     body,
   };
 };
+
+export const unauthorized = (body) => {
+  return {
+    statusCode: 401,
+    body,
+  };
+};
+
 export const created = (body) => {
   return {
     statusCode: 201,
