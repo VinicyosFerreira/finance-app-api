@@ -3,6 +3,7 @@ import {
   DeleteUserController,
   GetUserBalanceController,
   GetUserByIdController,
+  LoginUserController,
   UpdateUserController,
 } from '../../controllers';
 import {
@@ -10,6 +11,7 @@ import {
   makeDeleteUserController,
   makeGetUserBalanceController,
   makeGetUserByIdController,
+  makeLoginUserController,
   makeUpdateUserController,
 } from './user';
 describe('User Controller Factory', () => {
@@ -32,5 +34,9 @@ describe('User Controller Factory', () => {
   it('should return a valid UpdateUserController', () => {
     const sut = makeUpdateUserController();
     expect(sut).toBeInstanceOf(UpdateUserController);
+  });
+  it('should return a valid LoginUserController', () => {
+    const sut = makeLoginUserController();
+    expect(sut).toBeInstanceOf(LoginUserController);
   });
 });
