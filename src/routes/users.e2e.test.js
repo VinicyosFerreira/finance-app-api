@@ -10,7 +10,6 @@ describe('User Routes E2E Tests', () => {
       .post('/api/users')
       .send({
         ...user,
-
         id: undefined,
       });
 
@@ -150,6 +149,35 @@ describe('User Routes E2E Tests', () => {
     const response = await request(app).delete(
       `/api/users/${faker.string.uuid()}`
     );
+    expect(response.status).toBe(404);
+  });
+
+  it('POST /api/users/login return 200 and user with token when user credentials are valid', async () => {
+    const { body: createdUser } = await request(app)
+      .post('/api/users')
+      .send({
+        ...user,
+        id: undefined,
+      });
+
+    const response = await request(app).post('/api/users/login').send({
+      email: createdUser.email,
+      password: user.password,
+    });
+
+    expect(response.status).toBe(200);
+  });
+
+  it('POST api/users/login return 404 when user not found', async () => {
+    const response = await request(app)
+      .post('/api/users/login')
+      .send({
+        email: faker.internet.email(),
+        password: faker.internet.password({
+          length: 7,
+        }),
+      });
+
     expect(response.status).toBe(404);
   });
 });
