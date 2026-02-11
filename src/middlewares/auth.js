@@ -5,7 +5,7 @@ export const auth = (req, res, next) => {
     const accessToken = req.headers?.authorization?.split('Bearer ')[1];
 
     if (!accessToken) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).send({ message: 'Unauthorized' });
     }
 
     const decodedToken = jwt.verify(
@@ -14,7 +14,7 @@ export const auth = (req, res, next) => {
     );
 
     if (!decodedToken) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).send({ message: 'Unauthorized' });
     }
 
     req.userId = decodedToken.userId;
