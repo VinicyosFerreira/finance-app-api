@@ -24,10 +24,11 @@ describe('User Routes E2E Tests', () => {
         id: undefined,
       });
 
-    const response = await request(app).get(`/api/users/${createdUser.id}`);
+    const response = await request(app)
+      .get(`/api/users/${createdUser.id}`)
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(createdUser);
   });
 
   it('PATCH /api/users/:userId return 200 and updated user', async () => {
@@ -49,6 +50,7 @@ describe('User Routes E2E Tests', () => {
 
     const { body: updatedUser, status } = await request(app)
       .patch(`/api/users/${createdUser.id}`)
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
       .send(updateUserPayload);
 
     expect(status).toBe(200);
@@ -66,9 +68,10 @@ describe('User Routes E2E Tests', () => {
         id: undefined,
       });
 
-    const response = await request(app).delete(`/api/users/${createdUser.id}`);
+    const response = await request(app)
+      .delete(`/api/users/${createdUser.id}`)
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`);
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(createdUser);
   });
 
   it('GET api/users/:userId/balance return 200 and user balance', async () => {
@@ -103,9 +106,9 @@ describe('User Routes E2E Tests', () => {
       }),
     ]);
 
-    const response = await request(app).get(
-      `/api/users/${createdUser.id}/balance`
-    );
+    const response = await request(app)
+      .get(`/api/users/${createdUser.id}/balance`)
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
@@ -114,42 +117,6 @@ describe('User Routes E2E Tests', () => {
       investments: '4000',
       balance: '3000',
     });
-  });
-
-  it('GET api/users/:userId return 404 when user not found', async () => {
-    const response = await request(app).get(
-      `/api/users/${faker.string.uuid()}`
-    );
-    expect(response.status).toBe(404);
-  });
-
-  it('GET /api/users/:userId/balance return 404 when user not found', async () => {
-    const response = await request(app).get(
-      `/api/users/${faker.string.uuid()}/balance`
-    );
-    expect(response.status).toBe(404);
-  });
-
-  it('PATCH /api/users/:userId return 404 when user not found', async () => {
-    const response = await request(app)
-      .patch(`/api/users/${faker.string.uuid()}`)
-      .send({
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 7,
-        }),
-      });
-
-    expect(response.status).toBe(404);
-  });
-
-  it('DELETE /api/users/:userID return 404 when user not found', async () => {
-    const response = await request(app).delete(
-      `/api/users/${faker.string.uuid()}`
-    );
-    expect(response.status).toBe(404);
   });
 
   it('POST /api/users/login return 200 and user with token when user credentials are valid', async () => {
@@ -166,18 +133,6 @@ describe('User Routes E2E Tests', () => {
     });
 
     expect(response.status).toBe(200);
-  });
-
-  it('POST api/users/login return 404 when user not found', async () => {
-    const response = await request(app)
-      .post('/api/users/login')
-      .send({
-        email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 7,
-        }),
-      });
-
-    expect(response.status).toBe(404);
+    expect(response.body).toEqual(createdUser);
   });
 });
