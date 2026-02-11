@@ -5,12 +5,14 @@ export class CreateUserUseCase {
     getUserByEmailRepository,
     createUserRepository,
     passwordHasherAdapter,
-    idGeneratorAdapter
+    idGeneratorAdapter,
+    tokenGeneratorAdapter
   ) {
     this.createUserRepository = createUserRepository;
     this.getUserByEmailRepository = getUserByEmailRepository;
     this.passwordHasherAdapter = passwordHasherAdapter;
     this.idGeneratorAdapter = idGeneratorAdapter;
+    this.tokenGeneratorAdapter = tokenGeneratorAdapter;
   }
   async execute(createUserParams) {
     const userWithProvidedEmail = await this.getUserByEmailRepository.execute(
@@ -38,7 +40,11 @@ export class CreateUserUseCase {
 
     // inserir no banco
     const createdUser = await this.createUserRepository.execute(user);
+    const tokens = this.tokenGeneratorAdapter.execute(userId);
 
-    return createdUser;
+    return {
+      ...createdUser,
+      tokens: tokens,
+    };
   }
 }
