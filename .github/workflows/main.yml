@@ -20,6 +20,8 @@ jobs:
 
       - name: 'Create .env.test file'
         run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5433/finance-app" >> .env.test
+        run: echo "JWT_ACCESS_TOKEN_SECRET=secret" >> .env.test
+        run: echo "JWT_REFRESH_TOKEN_SECRET=secret2" >> .env.test
 
       - name: 'Temporary .env for Prisma'
         run: cp .env.test .env
