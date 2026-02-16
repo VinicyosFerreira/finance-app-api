@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { unauthorized } from '../controllers/helpers/http.js';
+
 export const auth = (req, res, next) => {
   try {
     const accessToken = req.headers?.authorization?.split('Bearer ')[1];
@@ -21,6 +21,6 @@ export const auth = (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    return unauthorized({ message: 'Unauthorized' });
+    return res.status(401).send({ message: 'Unauthorized' });
   }
 };

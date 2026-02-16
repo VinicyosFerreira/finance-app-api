@@ -34,8 +34,8 @@ describe('Create User Use Case', () => {
   class TokenGeneratorAdapterStub {
     execute() {
       return {
-        accessToken: 'any_access_token',
-        refreshToken: 'any_refresh_token',
+        access_token: 'any_access_token',
+        refresh_token: 'any_refresh_token',
       };
     }
   }
@@ -74,8 +74,8 @@ describe('Create User Use Case', () => {
 
     // assert
     expect(createdUser).toBeTruthy();
-    expect(createdUser.tokens.accessToken).toBeDefined();
-    expect(createdUser.tokens.refreshToken).toBeDefined();
+    expect(createdUser.tokens.access_token).toBeDefined();
+    expect(createdUser.tokens.refresh_token).toBeDefined();
   });
 
   it('should throw EmailAlreadyInUseError if GetUserByEmailRepository returns in user', async () => {
