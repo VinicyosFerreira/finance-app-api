@@ -12,6 +12,13 @@ export class UserNotFoundError extends Error {
   }
 }
 
+export class ForbiddenError extends Error {
+  constructor() {
+    super('Forbidden');
+    this.name = 'ForbiddenError';
+  }
+}
+
 export class InvalidPasswordError extends Error {
   constructor() {
     super('Invalid password');
