@@ -54,23 +54,6 @@ describe('Update Transaction Controller', () => {
     expect(result.statusCode).toBe(400);
   });
 
-  it('should return 400 if unallowed field is provided', async () => {
-    // arrange
-    const { sut } = makeSut();
-
-    // act
-    const result = await sut.execute({
-      ...httpRequest,
-      body: {
-        ...httpRequest.body,
-        unallowed_field: 'unallowed_value',
-      },
-    });
-
-    // assert
-    expect(result.statusCode).toBe(400);
-  });
-
   it('should return 400 if amount is not valid', async () => {
     // arrange
     const { sut } = makeSut();

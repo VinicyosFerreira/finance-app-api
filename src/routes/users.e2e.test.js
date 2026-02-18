@@ -83,27 +83,36 @@ describe('User Routes E2E Tests', () => {
       });
 
     await Promise.all([
-      request(app).post('/api/transactions').send({
-        user_id: createdUser.id,
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: TransactionType.EARNING,
-        amount: 10000,
-      }),
-      request(app).post('/api/transactions').send({
-        user_id: createdUser.id,
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: TransactionType.EXPENSE,
-        amount: 3000,
-      }),
-      request(app).post('/api/transactions').send({
-        user_id: createdUser.id,
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: TransactionType.INVESTMENT,
-        amount: 4000,
-      }),
+      request(app)
+        .post('/api/transactions')
+        .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
+        .send({
+          user_id: createdUser.id,
+          name: faker.commerce.productName(),
+          date: faker.date.anytime().toISOString(),
+          type: TransactionType.EARNING,
+          amount: 10000,
+        }),
+      request(app)
+        .post('/api/transactions')
+        .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
+        .send({
+          user_id: createdUser.id,
+          name: faker.commerce.productName(),
+          date: faker.date.anytime().toISOString(),
+          type: TransactionType.EXPENSE,
+          amount: 3000,
+        }),
+      request(app)
+        .post('/api/transactions')
+        .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
+        .send({
+          user_id: createdUser.id,
+          name: faker.commerce.productName(),
+          date: faker.date.anytime().toISOString(),
+          type: TransactionType.INVESTMENT,
+          amount: 4000,
+        }),
     ]);
 
     const response = await request(app)

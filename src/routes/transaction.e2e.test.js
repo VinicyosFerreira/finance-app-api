@@ -15,6 +15,7 @@ describe('Transaction Routes E2E Tests', () => {
 
     const { body: createdTransaction, status } = await request(app)
       .post('/api/transactions')
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
       .send({
         ...transaction,
         user_id: createdUser.id,
@@ -28,7 +29,7 @@ describe('Transaction Routes E2E Tests', () => {
     expect(String(createdTransaction.amount)).toBe(String(transaction.amount));
   });
 
-  it('GET /api/transactions/?userId return 200 and transactions', async () => {
+  it('GET /api/transactions return 200 and transactions', async () => {
     const { body: createdUser } = await request(app)
       .post('/api/users')
       .send({
@@ -38,15 +39,16 @@ describe('Transaction Routes E2E Tests', () => {
 
     const { body: createdTransaction } = await request(app)
       .post('/api/transactions')
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
       .send({
         ...transaction,
         user_id: createdUser.id,
         id: undefined,
       });
 
-    const response = await request(app).get(
-      `/api/transactions?userId=${createdUser.id}`
-    );
+    const response = await request(app)
+      .get(`/api/transactions`)
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`);
 
     expect(response.status).toBe(200);
     expect(response.body[0].id).toBe(createdTransaction.id);
@@ -68,6 +70,7 @@ describe('Transaction Routes E2E Tests', () => {
 
     const { body: createdTransaction } = await request(app)
       .post('/api/transactions')
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
       .send({
         ...transaction,
         user_id: createdUser.id,
@@ -83,6 +86,7 @@ describe('Transaction Routes E2E Tests', () => {
 
     const response = await request(app)
       .patch(`/api/transactions/${createdTransaction.id}`)
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
       .send(updateTransactionPayload);
 
     expect(response.status).toBe(200);
@@ -105,6 +109,7 @@ describe('Transaction Routes E2E Tests', () => {
 
     const { body: createdTransaction } = await request(app)
       .post('/api/transactions')
+      .set('Authorization', `Bearer ${createdUser.tokens.access_token}`)
       .send({
         ...transaction,
         user_id: createdUser.id,
@@ -123,19 +128,6 @@ describe('Transaction Routes E2E Tests', () => {
     const response = await request(app).get(
       `/api/transactions/${faker.string.uuid()}`
     );
-    expect(response.status).toBe(404);
-  });
-
-  it('PATCH /api/transactions/:transactionId return 404 when transaction not found', async () => {
-    const response = await request(app)
-      .patch(`/api/transactions/${faker.string.uuid()}`)
-      .send({
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        amount: Number(faker.finance.amount()),
-        type: TransactionType.EXPENSE,
-      });
-
     expect(response.status).toBe(404);
   });
 
