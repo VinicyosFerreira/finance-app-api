@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "description": "Finance App API that allows you to manage your finances"
   },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter 'Bearer' [space] and then your token in the text input below."
+    }
+  },
   "paths": {
     "/api/users": {
       "post": {
@@ -31,54 +39,13 @@
             "description": "Internal server error"
           }
         }
-      }
-    },
-    "/api/users/{userId}/balance": {
-      "get": {
-        "tags": ["User"],
-        "summary": "Get User Balance By ID",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Id of the user to get balance"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transaction of the user found",
-            "schema": {
-              "$ref": "#/definitions/UserBalance"
-            }
-          },
-          "404": {
-            "description": "User not found",
-            "schema": {
-              "$ref": "#/definitions/UserNotFoundResponse"
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/InternalServerErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/api/users/{userId}": {
+      },
       "get": {
         "tags": ["User"],
         "summary": "Get User By ID",
-        "parameters": [
+        "security": [
           {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Id of the user to get"
+            "BearerAuth": []
           }
         ],
         "responses": {
@@ -102,50 +69,15 @@
           }
         }
       },
-      "delete": {
-        "tags": ["User"],
-        "summary": "Delete User By ID",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Id of the user to delete"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User deleted successfully",
-            "schema": {
-              "$ref": "#/definitions/UserParams"
-            }
-          },
-          "404": {
-            "description": "User not found",
-            "schema": {
-              "$ref": "#/definitions/UserNotFoundResponse"
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "schema": {
-              "$ref": "#/definitions/InternalServerErrorResponse"
-            }
-          }
-        }
-      },
       "patch": {
         "tags": ["User"],
         "summary": "Update User By ID",
-        "parameters": [
+        "security": [
           {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Id of the user to update"
-          },
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
           {
             "name": "body",
             "in": "body",
@@ -178,12 +110,154 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete User By ID",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/UserParams"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/balance": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get User Balance By ID",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction of the user found",
+            "schema": {
+              "$ref": "#/definitions/UserBalance"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login User and get token",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginUserParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User logged in successfully",
+            "schema": {
+              "$ref": "#/definitions/UserWithToken"
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/refresh-token": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Refresh user token",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Tokens generated successfully",
+            "schema": {
+              "$ref": "#/definitions/Tokens"
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
       }
     },
     "/api/transactions": {
       "post": {
         "tags": ["Transaction"],
         "summary": "Create a new transaction",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "body",
@@ -222,13 +296,9 @@
       "get": {
         "tags": ["Transaction"],
         "summary": "Get all transactions by user id",
-        "parameters": [
+        "security": [
           {
-            "name": "userId",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "description": "Id of the user to get transactions"
+            "BearerAuth": []
           }
         ],
         "responses": {
@@ -260,6 +330,11 @@
       "delete": {
         "tags": ["Transaction"],
         "summary": "Delete Transaction By ID",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "transactionId",
@@ -293,6 +368,11 @@
       "patch": {
         "tags": ["Transaction"],
         "summary": "Update Transaction By ID",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "transactionId",
@@ -361,6 +441,66 @@
         "password": {
           "type": "string",
           "example": "password123"
+        }
+      }
+    },
+    "UserWithToken": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserParams"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tokens": {
+              "type": "object",
+              "properties": {
+                "acess_token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.."
+                },
+                "refresh_token": {
+                  "type": "string",
+                  "example": "dGhpc2lzYXJlZnJlc2h0b2tlbg=="
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Tokens": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OGQxNzc1OS03ZTA4LTRlNDEtOTM5YS1iMmZjNWNiODI4MjEiLCJpYXQiOjE3MzI5MjIzMDUsImV4cCI6MTczMjkyMzIwNX0.imPbb_Agn3qoYrU5p48TXhhn4wpP9n4qYR9K9h5NRMc"
+        },
+        "refresh_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OGQxNzc1OS03ZTA4LTRlNDEtOTM5YS1iMmZjNWNiODI4MjEiLCJpYXQiOjE3MzI5MjIzMDUsImV4cCI6MTczNTUxNDMwNX0.ugNCojNKTkxFTVF9F2ISmo0aqZjIRynxLNclpNPSsDo"
+        }
+      }
+    },
+    "LoginUserParams": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "john@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password123"
+        }
+      }
+    },
+    "RefreshTokenParams": {
+      "type": "object",
+      "properties": {
+        "refresh_token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OGQxNzc1OS03ZTA4LTRlNDEtOTM5YS1iMmZjNWNiODI4MjEiLCJpYXQiOjE3MzI5MjIzMDUsImV4cCI6MTczNTUxNDMwNX0.ugNCojNKTkxFTVF9F2ISmo0aqZjIRynxLNclpNPSsDo"
         }
       }
     },
@@ -447,10 +587,6 @@
     "CreateTransactionParams": {
       "type": "object",
       "properties": {
-        "user_id": {
-          "type": "string",
-          "example": "86e95b6b-4e3f-4a50-9965-5ea684fa9f7c"
-        },
         "name": {
           "type": "string",
           "example": "Salary"
@@ -496,6 +632,15 @@
         "message": {
           "type": "string",
           "example": "Transaction not found"
+        }
+      }
+    },
+    "UnauthorizedErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Unauthorized"
         }
       }
     },
