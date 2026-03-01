@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import cors from 'cors';
 import { usersRouter, transactionsRouter } from './routes/index.js';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
@@ -11,6 +12,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/users', usersRouter);
 app.use('/api/transactions', transactionsRouter);
