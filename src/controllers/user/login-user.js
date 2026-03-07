@@ -17,7 +17,6 @@ export class LoginUserController {
   async execute(httpRequest) {
     try {
       const params = httpRequest.body;
-      console.log(params);
       await loginUserSchema.parseAsync(params);
       const user = await this.loginUserUseCase.execute(
         params.email,
