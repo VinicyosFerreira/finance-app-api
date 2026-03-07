@@ -66,3 +66,15 @@ export const refreshTokenSchema = z.object({
       error: 'Refresh token is required',
     }),
 });
+
+export const getBalanceSchema = z.object({
+  user_id: z.uuid({
+    error: 'User id is required',
+  }),
+  from: z.string({
+    error: 'From is required',
+  }),
+  to: z.string({
+    error: 'To is required',
+  }),
+});
