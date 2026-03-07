@@ -82,6 +82,9 @@ describe('User Routes E2E Tests', () => {
         id: undefined,
       });
 
+    const from = '2022-01-01';
+    const to = '2022-12-31';
+
     await Promise.all([
       request(app)
         .post('/api/transactions')
@@ -89,7 +92,7 @@ describe('User Routes E2E Tests', () => {
         .send({
           user_id: createdUser.id,
           name: faker.commerce.productName(),
-          date: faker.date.anytime().toISOString(),
+          date: new Date(from).toISOString(),
           type: TransactionType.EARNING,
           amount: 10000,
         }),
@@ -99,7 +102,7 @@ describe('User Routes E2E Tests', () => {
         .send({
           user_id: createdUser.id,
           name: faker.commerce.productName(),
-          date: faker.date.anytime().toISOString(),
+          date: new Date(from).toISOString(),
           type: TransactionType.EXPENSE,
           amount: 3000,
         }),
@@ -109,14 +112,15 @@ describe('User Routes E2E Tests', () => {
         .send({
           user_id: createdUser.id,
           name: faker.commerce.productName(),
-          date: faker.date.anytime().toISOString(),
+          date: new Date(from).toISOString(),
           type: TransactionType.INVESTMENT,
           amount: 4000,
         }),
     ]);
 
+    // passa os from e to para como query param
     const response = await request(app)
-      .get(`/api/users/balance`)
+      .get(`/api/users/balance?from=${from}&to=${to}`)
       .set('Authorization', `Bearer ${createdUser.tokens.access_token}`);
 
     expect(response.status).toBe(200);

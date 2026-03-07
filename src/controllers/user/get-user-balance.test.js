@@ -9,6 +9,16 @@ describe('Get User Balance Controller', () => {
     }
   }
 
+  const httpRequest = {
+    params: {
+      userId: faker.string.uuid(),
+    },
+    query: {
+      from: '2022-01-01',
+      to: '2022-12-31',
+    },
+  };
+
   const makeSut = () => {
     const getUserBalanceUseCaseStub = new GetUserBalanceUseCaseStub();
     const sut = new GetUserBalanceController(getUserBalanceUseCaseStub);
@@ -20,11 +30,7 @@ describe('Get User Balance Controller', () => {
     const { sut } = makeSut();
 
     // result
-    const result = await sut.execute({
-      params: {
-        userId: faker.string.uuid(),
-      },
-    });
+    const result = await sut.execute(httpRequest);
 
     // assert
     expect(result.statusCode).toBe(200);
@@ -39,9 +45,13 @@ describe('Get User Balance Controller', () => {
       params: {
         userId: 'invalid_id',
       },
+      query: {
+        from: '2022-01-01',
+        to: '2022-12-31',
+      },
     });
 
-    // asset
+    // assert
     expect(result.statusCode).toBe(400);
   });
 
@@ -54,11 +64,7 @@ describe('Get User Balance Controller', () => {
       .mockRejectedValueOnce(new Error());
 
     // act
-    const result = await sut.execute({
-      params: {
-        userId: faker.string.uuid(),
-      },
-    });
+    const result = await sut.execute(httpRequest);
 
     // assert
     expect(result.statusCode).toBe(500);
@@ -72,16 +78,14 @@ describe('Get User Balance Controller', () => {
       'execute'
     );
 
-    const userId = faker.string.uuid();
-
     // act
-    await sut.execute({
-      params: {
-        userId: userId,
-      },
-    });
+    await sut.execute(httpRequest);
 
     // assert
-    expect(executeSpy).toHaveBeenCalledWith(userId);
+    expect(executeSpy).toHaveBeenCalledWith(
+      httpRequest.params.userId,
+      httpRequest.query.from,
+      httpRequest.query.to
+    );
   });
 });
